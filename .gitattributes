@@ -1,0 +1,4 @@
+*.as diff=cp932 -text linguist-language=hsp3
+*.hsp diff=cp932 -text linguist-language=hsp3
+*.hs diff=cp932 -text linguist-language=txt
+*.txt diff=cp932 -text linguist-language=txt

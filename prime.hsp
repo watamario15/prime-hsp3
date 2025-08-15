@@ -1,0 +1,98 @@
+/*
+ * a: 結果に表示するためのバックアップデータ
+ * b: 割る数
+ * c: 計算用に呼び出すaの値
+ * d: 入力された数
+ */
+#packopt name "prime"
+#packopt icon "prime.ico"
+#packopt version "version.txt"
+
+*top
+	title "素数計算ソフト"
+	print "下のボックスに自然数を入力した後､\nボタンを押すと選んだ動作を行います｡\n"
+	objsize 256,40
+	objmode 2
+	font "MSゴシック",32
+	input d
+	font "MSゴシック",16
+	button "素因数分解(素数判定も可能)",*hantei
+	button "それ以上で最小の素数",*search
+	button "それ以下の素数の個数",*kosu
+	mes
+	button "画面をクリア",*clear
+	color 0,0,0 : boxf 320,0,321,480
+	sysfont
+	pos 324,0 : print "記録:"
+	stop
+
+*hantei
+	c=d : a=d : info=0 : lpct=0 : ans="" : b=2
+	if c<1 : goto *what
+	if c=1 : mes c : stop
+	repeat
+		if b=2 {
+			if c=b : info=2 : goto *hantei_skip
+			if c\b=0 : info=1 : goto *hantei_skip
+			b+=1
+		}
+		repeat
+			if c\b=0 & c!b : info=1 : break
+			if c/b<b | c=b : info=2 : break
+			b+=2
+		loop
+*hantei_skip
+		if info=1 : ans=ans+b+"x"
+		if info=2{
+			if lpct!0 : ans=ans+c
+			break
+		}
+		c=c/b
+		lpct++
+	loop
+	if lpct!=0 : mes ""+a+"の素因数分解結果:\n"+ans+"" : else : mes ""+a+"は素数です｡"
+	stop
+
+*search
+	a=d : c=a : b=3
+	if a<0 : goto *what
+	if a=0 | a=1 | a=2 : a=2 : goto *search_skip
+	if a\2=0 : a++
+	repeat
+		if a\b=0 : a+=2 : b=3
+		if a/b<b : break
+		b+=2
+	loop
+*search_skip
+	print ""+c+"以上の最小の素数: "+a
+	stop
+
+*kosu
+	if d>100000{
+		dialog "大きな数でこの処理を行うと、\n完了に時間がかかる場合があります。\n続行しますか？",3,"確認"
+		if stat!=6 : stop
+	}
+	if d<1 : goto *what
+	if d=1 : ans=0 : goto *kosu_skip
+	if d=2 : ans=1 : goto *kosu_skip
+	a=3 : ans=1
+	while(a<=d)
+		b=3
+		repeat
+			if a/b<b : ans++ : break
+			if a\b=0 : break
+			b+=2
+		loop
+		a+=2
+	wend
+*kosu_skip
+	print ""+d+"までの素数: "+ans+"個"
+	stop
+
+*what
+	dialog "不正な値が入力されました｡\n自然数を入力しているのにこのエラーが出た場合は､\n32bit整数型変数の値の範囲を越えてオーバーフロー\nしている可能性があります｡",1,"ERROR"
+	stop
+
+*clear
+	cls
+	goto *top

@@ -1,0 +1,13 @@
+; 行の先頭部分に「;」（半角セミコロン）を付けると、その行はスキップします。
+
+_FILEVERSION=1.1.0.0
+_PRODUCTVERSION=1.1.0.0
+Comments=多様な素数関連の計算ができます。
+CompanyName=watamario15
+FileDescription=素数計算ソフト
+FileVersion=1.1
+InternalName=素数計算ソフト
+LegalCopyright=Copyright (C) 2017-2025 watamario15
+OriginalFilename=prime.exe
+ProductName=素数計算ソフト
+ProductVersion=1.1
